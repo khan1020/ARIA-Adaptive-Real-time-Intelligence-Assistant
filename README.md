@@ -43,34 +43,163 @@ The system uses deep learning models  neural networks trained on millions of ima
 
 ---
 
-## 2. How to Install & Run
+## 2. How to Install & Run (Complete Guide — From Zero)
 
-### Step 1  Install Python
-Download Python 3.10 or 3.11 from https://python.org  
-During install, **check the box that says "Add Python to PATH"**.
+Follow these steps **exactly in order**. This works on Windows 10/11.
 
-### Step 2  Install Tesseract OCR (for handwriting module)
-Download from: https://github.com/tesseract-ocr/tesseract/releases  
-Install it. The default path is: `C:\Program Files\Tesseract-OCR\tesseract.exe`  
-If you install it somewhere else, update `TESSERACT_PATH` in `config.py`.
+---
 
-### Step 3  Install all Python libraries
-Open a terminal (Command Prompt or PowerShell) inside the project folder and run:
+### Step 1 — Install Python 3.11
+
+1. Go to: **https://www.python.org/downloads/**
+2. Download **Python 3.11.x** (3.10 also works — avoid 3.12+)
+3. Run the installer
+4. ✅ **CHECK the box** that says **"Add Python to PATH"** (very important!)
+5. Click **Install Now**
+
+Verify it worked — open **PowerShell** or **Command Prompt** and type:
+```bash
+python --version
+```
+You should see: `Python 3.11.x`
+
+---
+
+### Step 2 — Install Git
+
+If you don't have Git installed:
+1. Go to: **https://git-scm.com/download/win**
+2. Download and install (all default settings are fine)
+
+Verify:
+```bash
+git --version
+```
+You should see: `git version 2.x.x`
+
+---
+
+### Step 3 — Clone the Repository from GitHub
+
+Open **PowerShell** (press `Win + R`, type `powershell`, press Enter) and run:
+
+```bash
+git clone https://github.com/khan1020/ARIA-Adaptive-Real-time-Intelligence-Assistant.git
+```
+
+Then enter the project folder:
+```bash
+cd ARIA-Adaptive-Real-time-Intelligence-Assistant
+```
+
+---
+
+### Step 4 — Create a Virtual Environment (Recommended)
+
+A virtual environment keeps all ARIA's libraries separate from other Python projects.
+
+```bash
+python -m venv venv
+```
+
+Activate it:
+```bash
+venv\Scripts\activate
+```
+
+You should now see `(venv)` at the start of your terminal line. **Always activate the venv before running ARIA.**
+
+---
+
+### Step 5 — Install Tesseract OCR
+
+Tesseract is needed for the **Handwriting OCR module** (Module 4). It's a separate program, not a Python package.
+
+1. Go to: **https://github.com/UB-Mannheim/tesseract/wiki**
+2. Download the latest `.exe` installer for Windows (e.g., `tesseract-ocr-w64-setup-5.x.x.exe`)
+3. Run the installer — use the **default install path**: `C:\Program Files\Tesseract-OCR\`
+4. ✅ During install, check **"Add to PATH"** if the option appears
+
+Verify Tesseract works — open a **new** PowerShell window and run:
+```bash
+tesseract --version
+```
+You should see: `tesseract 5.x.x`
+
+> **If you installed Tesseract to a different folder**, open `config.py` and update:
+> ```python
+> TESSERACT_PATH = r"C:\Your\Custom\Path\tesseract.exe"
+> ```
+
+---
+
+### Step 6 — Install All Python Libraries
+
+Make sure you are inside the project folder with the venv activated, then run:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-This installs all AI models and libraries automatically.
+This will install all AI frameworks and libraries automatically. **This step may take 5–15 minutes** depending on your internet speed (PyTorch + YOLO are large packages).
 
-### Step 4  Run the application
+Expected output at the end:
+```
+Successfully installed opencv-python torch ultralytics mediapipe hsemotion-onnx ...
+```
+
+---
+
+### Step 7 — Run ARIA
+
 ```bash
 python main.py
 ```
 
-A window will open showing your webcam feed. Press number keys (1–7) to activate modules.
+**The first time you run it**, ARIA will automatically download the AI model files it needs:
+- `hand_landmarker.task` — MediaPipe hand model (~9MB)
+- `face_landmarker.task` — MediaPipe face model (~3MB)
+- `res10_300x300_ssd.caffemodel` — Face detector (~10MB)
+- `enet_b0_8_best_afew.onnx` — Emotion recognition model (auto, via hsemotion-onnx)
+
+You will see progress messages like:
+```
+[HandGesture] Downloading model...
+[FaceExpression] Downloading DNN face model...
+```
+This only happens **once** — after that, all models are cached locally.
+
+A window will open showing your **live webcam feed**. Press number keys **1–7** to activate modules.
 
 ---
+
+### Full Setup Summary (Quick Reference)
+
+```bash
+# 1. Clone
+git clone https://github.com/khan1020/ARIA-Adaptive-Real-time-Intelligence-Assistant.git
+cd ARIA-Adaptive-Real-time-Intelligence-Assistant
+
+# 2. Create and activate virtual environment
+python -m venv venv
+venv\Scripts\activate
+
+# 3. Install libraries
+pip install -r requirements.txt
+
+# 4. Run
+python main.py
+```
+
+> **Every time** you want to run ARIA after the first setup:
+> ```bash
+> cd ARIA-Adaptive-Real-time-Intelligence-Assistant
+> venv\Scripts\activate
+> python main.py
+> ```
+
+---
+
 
 ## 3. Keyboard Controls  Quick Reference
 
@@ -578,7 +707,7 @@ MAR_THRESHOLD = 0.6      # Mouth openness for yawn. Lower = detects smaller yawn
 | `comtypes` | Windows COM interface (required by pycaw) | ≥1.4 |
 | `numpy` | Fast numerical array operations | ≥1.24 |
 | `Pillow` | Image processing | ≥10.0 |
-| `torch` / `torchvision` | PyTorch deep learning (used by YOLO internally) | ≥2.0 |
+| `torch` / `torchvision` | PyTorch deep learning (used by YOLO internally) | >=2.0 |
 | `tensorflow` | Used internally by some models | ≥2.15 |
 
 ---
