@@ -1,0 +1,27 @@
+# Core vision & AI
+opencv-python>=4.8.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# Object detection (YOLO)
+torch>=2.0.0
+torchvision>=0.15.0
+ultralytics>=8.0.0
+
+# Hand tracking & face mesh (Google MediaPipe)
+mediapipe>=0.10.0
+
+# Emotion recognition  (REPLACES old fer library)
+hsemotion-onnx>=0.3.0
+onnxruntime>=1.16.0    # required by hsemotion-onnx for ONNX model inference
+
+# Handwriting OCR
+pytesseract>=0.3.10
+
+# Voice feedback (offline TTS)
+pyttsx3>=2.90
+
+# Gesture-controlled computer  (Windows only)
+pyautogui>=0.9.54
+pycaw>=20240210
+comtypes>=1.4.0
